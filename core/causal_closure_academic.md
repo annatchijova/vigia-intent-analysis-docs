@@ -1,0 +1,192 @@
+<!--
+VIGIA Academic Documentation
+Module: 79fddb64
+Batch ID: vigia-doc-0042-79fddb64
+Generated: 2026-05-20T14:56:47.853470+00:00
+-->
+
+# Module Documentation: `vigia/core/causal_closure.py`
+
+## ENGLISH
+
+**What Is This Module?**
+
+This document describes the **Causal Closure Score (CCS)** engine, a deterministic evaluation module within the VIGÍA forensic framework. Its scientific purpose is to test whether a collection of digital evidence artifacts forms a complete, logically consistent causal narrative around a leading investigative hypothesis. Rather than treating evidence as isolated signals, CCS verifies whether the artifacts collectively "close" the causal loop—meaning no unexplained logical gaps remain under adversarial scrutiny. The module operates exclusively with deterministic integer arithmetic to ensure reproducible, legally defensible results.
+
+**Module Components**
+
+| Component | Role | Why It Matters |
+|---|---|---|
+| **Causal Closure Evaluation** | Core algorithm that synthesizes four independent dimensions into a single composite score. | Provides a unified, auditable measure of narrative completeness. |
+| **Fracti Default** | Neutral placeholder value substituted when any of the four dimensions cannot be measured. | Prevents missing data from biasing the computation. |
+| **Result Record** | Immutable output container that stores the final score and diagnostic flags. | Guarantees chain-of-custody integrity for the metric itself. |
+| **Confidence Application** | Procedure that applies the score as both a multiplier and a hard gate to raw investigative confidence. | Protects downstream decisions from overconfidence. |
+| **Integer Percentage Display** | Conversion routine that renders metrics as whole-number percentages using exact truncation (int()), never rounding (round()). | Eliminates machine-precision ambiguity in court reports. |
+
+**The Four Evaluative Dimensions**
+
+| Dimension | Code | Question It Answers | Scientific Meaning |
+|---|---|---|---|
+| **Temporal Coherence** | TCV | Are the timestamps physically possible? | Detects causality violations (an effect preceding its cause). |
+| **Semantic Resonance** | CAR | Do artifacts refer to the same event? | Uses semiotic coherence (Peirce / Eco) to verify a shared referent across evidence channels. |
+| **Abductive Parsimony** | HLT | Is this the simplest explanation that accounts for everything? | Measures explanatory economy; fewer ad-hoc assumptions yield a higher score. |
+| **Adversarial Silence** | ASD | Is the absence of expected evidence structurally significant? | Applies Gricean implicature: systematic absence is itself informative. |
+
+**Key Concepts**
+
+| Concept | Plain-Language Definition | Role in Investigation |
+|---|---|---|
+| **Causal Closure** | The state in which available evidence fully accounts for a hypothesis without leaving internal contradictions. | Prevents false confidence when evidence is fragmented or incomplete. |
+| **Gate (Threshold)** | A logical checkpoint; if the composite score falls below this limit, the system is forbidden from issuing a definitive verdict. | Safeguards against over-interpretation of weak or contradictory evidence. |
+| **Abductive Parsimony** | The principle of preferring the explanation that requires the fewest unproven assumptions. | Keeps hypotheses empirically grounded and avoids conspiracy drift. |
+| **Adversarial Silence** | A structured, non-random absence of artifacts where something should exist according to the hypothesis. | Detects data destruction, collection blind spots, or deliberate concealment. |
+| **Immutable Result** | A read-only output record that cannot be altered after its creation. | Preserves the integrity and auditability of the scoring process. |
+| **Deterministic Integer Arithmetic** | Calculations performed with whole numbers and exact truncation, explicitly excluding floating-point rounding. | Guarantees bit-wise reproducibility across different machines and repeated analyses. |
+
+**Glossary**
+
+- **Artifact**: Any piece of digital evidence—such as a log entry, file fragment, or network packet—treated as a physical object carrying metadata.
+- **Causal Closure Score (CCS)**: A composite metric quantifying the degree to which the available evidence completes a coherent causal story.
+- **Fracti**: A predefined neutral scalar used as a fallback when one of the four evaluative dimensions is unavailable.
+- **Gate**: A binary pass/fail boundary applied to the CCS. Failure forces the verdict **ABSTAIN**.
+- **ABSTAIN**: The verdict indicating that causal closure is insufficient to support either affirmation or negation of the hypothesis.
+- **Raw Confidence**: The preliminary confidence measure assigned to a hypothesis before causal filtering.
+- **Effective Confidence**: The final confidence value after the gate is applied; set to exactly zero if the gate fails.
+- **Hypothesis**: The specific investigative proposition being tested against the body of evidence.
+
+**Scientific Note**
+
+【Scientific Note】Terminology borrowed from Charles Sanders Peirce (abduction), Umberto Eco (semiosis), and H. P. Grice (implicature) is occasionally mistaken for philosophical mysticism. It is not. Treat these constructs as **logical sensors**. Just as a thermometer transduces thermal energy into a scalar reading, abductive parsimony transduces explanatory complexity into a scalar value. Semantic resonance functions like a coherence interferometer: it detects whether multiple evidence channels converge on the same referent. Adversarial silence operates analogously to a dark-current detector in photonics—it measures structured absence rather than presence. These are formalized pattern-detection predicates, not metaphysical claims.
+
+---
+
+## ESPAÑOL
+
+**¿Qué es este módulo?**
+
+Este documento describe el motor de **Causal Closure Score (CCS)**, un módulo de evaluación determinístico dentro del marco forense VIGÍA. Su propósito científico es comprobar si una colección de artefactos de evidencia digital forma una narrativa causal completa y lógicamente consistente en torno a una hipótesis investigativa principal. En lugar de tratar la evidencia como señales aisladas, el CCS verifica si los artefactos cierran causalmente el ciclo; es decir, si no quedan brechas lógicas sin explicar bajo un escrutinio adversarial. Emplea aritmética determinista de enteros para garantizar resultados reproducibles y defendibles en sede judicial.
+
+**Conceptos clave**
+
+| Concepto | Definición en lenguaje llano | Papel en la investigación |
+|---|---|---|
+| Cierre causal | Estado en que la evidencia disponible explica completamente una hipótesis sin contradicciones internas. | Evita falsa confianza cuando la evidencia está fragmentada. |
+| Compuerta (umbral) | Punto de control lógico; si la puntuación cae debajo de este límite, el sistema se niega a emitir un veredicto definitivo. | Protege contra la sobreinterpretación de evidencia débil. |
+| Parsimonia abductiva | Preferir la explicación que requiere las menos suposiciones no probadas. | Mantiene las hipótesis fundamentadas; evita deriva conspirativa. |
+| Silencio adversarial | Ausencia estructurada de evidencia donde algo debería existir. | Detecta destrucción de datos o puntos ciegos en la recolección. |
+| Resultado inmutable | Registro de salida de solo lectura que no puede alterarse tras su creación. | Garantiza la integridad de la cadena de custodia del propio score. |
+| Aritmética determinista de enteros | Cálculos con números enteros y truncamiento exacto, nunca redondeo de punto flotante. | Elimina la ambigüedad de precisión máquina en dictámenes forenses. |
+
+**Las cuatro dimensiones evaluativas**
+
+| Dimensión | Código | Pregunta que responde | Significado científico |
+|---|---|---|---|
+| Coherencia temporal | TCV | ¿Los timestamps son físicamente posibles? | Verifica violaciones de causalidad (efecto antes que causa). |
+| Resonancia semántica | CAR | ¿Los artefactos se refieren al mismo evento? | Usa coherencia semiótica (Peirce/Eco) para verificar un referente compartido. |
+| Parsimonia abductiva | HLT | ¿Es esta la explicación más simple? | Mide economía explicativa; menos supuestos ad hoc = puntuación mayor. |
+| Silencio adversarial | ASD | ¿La evidencia faltante es estructuralmente significativa? | Aplica la implicatura griceana: la ausencia sistemática informa. |
+
+**Glosario**
+
+- **Artefacto**: Cualquier pieza de evidencia digital (entrada de registro, fragmento de archivo, paquete de red) tratada como objeto físico con metadatos.
+- **Causal Closure Score (CCS)**: Métrica compuesta que indica el grado en que la evidencia completa una historia causal.
+- **Fracti**: Valor neutro por defecto sustituido cuando una de las cuatro dimensiones no puede medirse.
+- **Compuerta**: Frontera binaria aprobado/reprobado; el fracaso fuerza un veredicto ABSTAIN (abstención).
+- **ABSTAIN**: Veredicto que indica cierre causal insuficiente para sostener afirmación o negación.
+- **Confianza bruta (raw confidence)**: Medida preliminar tipo probabilidad antes del filtrado causal.
+- **Confianza efectiva**: Valor final post-compuerta (se fija en cero si la compuerta falla).
+- **Hipótesis**: Proposición investigativa sometida a prueba contra la evidencia.
+
+**Nota Científica**
+
+【Nota Científica】La terminología tomada de Peirce (abducción), Eco (semiosis) y Grice (implicatura) a veces se confunde con misticismo filosófico. No lo es. Piense en estos constructos como **sensores lógicos**. Así como un termómetro transduce energía térmica en una lectura numérica, la parsimonia abductiva transduce complejidad explicativa en un valor escalar. La resonancia semántica funciona como un interferómetro de coherencia: detecta si múltiples canales de evidencia apuntan al mismo referente. El silencio adversarial opera como un detector de corriente oscura en fotónica—mide la ausencia estructurada en lugar de la presencia. Son predicados formalizados de detección de patrones, no afirmaciones metafísicas.
+
+---
+
+## РУССКИЙ
+
+**Что представляет собой этот модуль?**
+
+Описание движка Causal Closure Score (CCS) — детерминированного оценочного модуля в рамках судебной системы VIGÍA. Его назначение — проверить, образует ли совокупность цифровых доказательных артефактов полную, логически непротиворечивую причинно-следственную повествовательность вокруг ведущей следственной гипотезы. Вместо того чтобы рассматривать доказательства как изолированные сигналы, CCS проверяет, замыкают ли артефакты причинный контур — то есть не остаётся ли необъяснённых логических разрывов при состязательной проверке. Модуль использует исключительно детерминированную целочисленную арифметику для обеспечения воспроизводимых и судебно защищённых результатов.
+
+**Ключевые понятия**
+
+| Понятие | Определение простым языком | Роль в расследовании |
+|---|---|---|
+| Причинное замыкание | Состояние, при котором имеющиеся доказательства полностью объясняют гипотезу, не оставляя внутренних противоречий. | Предотвращает ложную уверенность при фрагментарности доказательств. |
+| Ворота (порог) | Логический контрольный пункт; если оценка ниже этого предела, система отказывается выносить окончательный вердикт. | Защищает от чрезмерной интерпретации слабых доказательств. |
+| Абдуктивная парсимония | Предпочтение объяснения, требующего наименьшего числа недоказанных допущений. | Удерживает гипотезы в рамках фактов; предотвращает «конспирологический уход». |
+| Состязательное молчание | Структурированное отсутствие доказательств там, где они должны были бы существовать. | Выявляет уничтожение данных или «слепые зоны» сбора. |
+| Неизменяемый результат | Выходная запись только для чтения, которая не может быть изменена после создания. | Гарантирует целостность цепочки хранения самой оценки. |
+| Детерминированная целочисленная арифметика | Вычисления с целыми числами и точным усечением, без округления с плавающей точкой. | Устраняет неоднозначность машинной точности в судебных заключениях. |
+
+**Четыре измерения**
+
+| Измерение | Код | Вопрос, на который отвечает | Научное значение |
+|---|---|---|---|
+| Временная когерентность | TCV | Физически ли возможны отметки времени? | Проверяет нарушения причинности (эффект до причины). |
+| Семантический резонанс | CAR | Ссылаются ли артефакты на одно событие? | Использует семиотическую когерентность (Пирс/Эко) для проверки общего референта. |
+| Абдуктивная парсимония | HLT | Является ли это простейшим объяснением? | Измеряет экономию объяснения; меньше ad-hoc допущений = выше оценка. |
+| Состязательное молчание | ASD | Имеет ли отсутствие доказательств структурное значение? | Применяет грайсовскую импликатуру: систематическое отсутствие несёт информацию. |
+
+**Глоссарий**
+
+- **Артефакт**: Любой элемент цифрового доказательства (запись журнала, фрагмент файла, сетевой пакет), рассматриваемый как физический объект с метаданными.
+- **Causal Closure Score (CCS)**: Комплексная метрика, показывающая, насколько полно доказательства завершают причинную историю.
+- **Fracti**: Нейтральное значение по умолчанию, используемое при невозможности измерить одно из четырёх измерений.
+- **Ворота**: Бинарная граница проход/отказ; при отказе выставляется вердикт ABSTAIN (воздержание).
+- **ABSTAIN**: Вердикт, означающий недостаточность причинного замыкания для подтверждения или опровержения.
+- **Сырая уверенность (raw confidence)**: Предварительная мера, аналогичная вероятности, до причинной фильтрации.
+- **Эффективная уверенность**: Итоговое значение после ворот (устанавливается в ноль при непрохождении ворот).
+- **Гипотеза**: Следственное предположение, проверяемое на соответствие доказательствам.
+
+**Научное примечание**
+
+【Научное примечание】Терминология, заимствованная у Пирса (абдукция), Эко (семиозис) и Грайса (импликатура), иногда ошибочно принимается за философский мистицизм. Это не так. Воспринимайте эти конструкты как **логические датчики**. Как термометр преобразует тепловую энергию в числовое показание, так абдуктивная парсимония преобразует сложность объяснения в скалярную величину. Семантический резонанс функционирует как когерентный интерферометр: он определяет, указывают ли множественные каналы доказательств на один референт. Состязательное молчание работает как детектор тёмного тока в фотонике — измеряет структурированное отсутствие, а не присутствие. Это формализованные предикаты обнаружения паттернов, а не метафизические утверждения.
+
+---
+
+## 中文
+
+**本模块是什么？**
+
+本文档描述"因果闭合评分"（CCS）引擎，它是 VIGÍA 取证框架中的确定性评估模块。其用途在于检验一组数字取证工件是否围绕某一主导调查假设形成了完整且逻辑自洽的因果叙事。该模块并非将证据视为孤立信号，而是验证这些取证工件是否在整体上"闭合"了因果环——即在对抗性审查下，是否不再存在无法解释的逻辑断裂。本模块完全采用确定性整数运算，以确保结果可复现，并具备出庭辩护的效力。
+
+**关键概念**
+
+| 概念 | 通俗定义 | 在调查中的作用 |
+|---|---|---|
+| 因果闭合 | 现有证据能够完整解释某一假设，且内部无矛盾的状态。 | 防止在证据碎片化时产生虚假信心。 |
+| 门控（阈值） | 逻辑检查点；若评分低于此界限，系统拒绝给出确定性结论。 | 防止对薄弱证据进行过度解释。 |
+| 溯因简约性 | 优先选择所需未证假设最少的解释。 | 使假设扎根于事实，防止阴谋论漂移。 |
+| 对抗性沉默 | 在应有证据之处出现结构性的证据缺失。 | 发现数据销毁或采集盲区。 |
+| 不可变结果 | 创建后不可更改的只读输出记录。 | 保证评分本身的保管链完整性。 |
+| 确定性整数运算 | 使用整数与精确截断进行计算，绝不采用浮点舍入。 | 消除司法鉴定报告中机器精度歧义。 |
+
+**四个评估维度**
+
+| 维度 | 代码 | 回答的问题 | 科学含义 |
+|---|---|---|---|
+| 时间相干性 | TCV | 时间戳在物理上是否可能？ | 检验因果律违背（果在因前）。 |
+| 语义共振 | CAR | 取证工件是否指向同一事件？ | 利用符号学一致性（皮尔斯 / 艾柯）验证共同指涉。 |
+| 溯因简约性 | HLT | 这是否是最简解释？ | 测度解释经济性；特设假设越少，评分越高。 |
+| 对抗性沉默 | ASD | 证据缺失是否具有结构性意义？ | 应用格赖斯含义：系统性缺席本身携带信息。 |
+
+**术语表**
+
+- **取证工件**：任何数字证据片段（日志条目、文件碎片、网络数据包），被视为带有元数据的物理对象。
+- **因果闭合评分（CCS）**：综合指标，表明证据在多大程度上完成了一段因果叙事。
+- **Fracti**：当某一维度无法测得时，用于替换的默认中性值。
+- **门控**：二元通过/失败边界；未通过时强制结论为"弃权（ABSTAIN）"。
+- **ABSTAIN（弃权）**：表明因果闭合不足，既不足以支持肯定，也不足以支持否定的结论。
+- **原始置信度（Raw Confidence）**：经过因果过滤前的初步概率型度量。
+- **有效置信度**：经过门控后的最终置信度值（若未通过门控，则置为零）。
+- **假设**：正在接受证据检验的调查命题。
+
+**科学说明**
+
+【科学说明】皮尔斯（溯因）、艾柯（符号过程）与格赖斯（含义）的术语有时被误认为哲学神秘主义。事实并非如此。请将这些概念视为**逻辑传感器**。正如温度计将热能转译为数值读数，溯因简约性将解释复杂度转译为标量值。语义共振如同一台相干干涉仪：它检测多路证据通道是否指向同一指涉对象。对抗性沉默则类似于光子学中的暗电流检测器——它测量的是结构性的"无"，而非"有"。这些都是形式化的模式检测谓词，而非形而上学断言。
+
+---
+
+*Licensed under the Apache License, Version 2.0. Copyright 2026 Anna Tchijova.*
